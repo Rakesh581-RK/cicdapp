@@ -16,12 +16,40 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <!-- Runtime -->
+        <!-- Mule runtime -->
         <app.runtime>4.7.0</app.runtime>
 
         <!-- Correct Mule Maven Plugin Version -->
         <mule.maven.plugin.version>3.9.1</mule.maven.plugin.version>
     </properties>
+
+    <!-- ⭐ Plugin repositories go ABOVE <build> (important for resolution) -->
+    <pluginRepositories>
+        <!-- MuleSoft Public (must be FIRST) -->
+        <pluginRepository>
+            <id>mulesoft-public</id>
+            <name>MuleSoft Public Repository</name>
+            <url>https://repository.mulesoft.org/nexus/content/repositories/public/</url>
+            <releases><enabled>true</enabled></releases>
+            <snapshots><enabled>false</enabled></snapshots>
+        </pluginRepository>
+
+        <!-- Anypoint Exchange (fallback only) -->
+        <pluginRepository>
+            <id>anypoint-exchange-v3</id>
+            <name>Anypoint Exchange</name>
+            <url>https://maven.anypoint.mulesoft.com/api/v3/maven</url>
+            <releases><enabled>true</enabled></releases>
+            <snapshots><enabled>false</enabled></snapshots>
+        </pluginRepository>
+
+        <!-- Central (fallback) -->
+        <pluginRepository>
+            <id>central</id>
+            <name>Maven Central</name>
+            <url>https://repo.maven.apache.org/maven2</url>
+        </pluginRepository>
+    </pluginRepositories>
 
     <build>
         <plugins>
@@ -42,37 +70,38 @@
 
                 <configuration>
                     <cloudHub2Deployment>
-
                         <!-- Platform URL -->
                         <uri>https://anypoint.mulesoft.com</uri>
 
-                        <!-- Connected App Authentication -->
+                        <!-- Connected App Auth -->
                         <connectedAppClientId>00e2284af36a46169a073425e5cb58f4</connectedAppClientId>
                         <connectedAppClientSecret>8d4BCb9d698E4368bB2466314B38eEb1</connectedAppClientSecret>
 
-                        <!-- Business Group + Environment -->
+                        <!-- BG + Environment -->
                         <businessGroup>sriven-9</businessGroup>
                         <environment>Sandbox</environment>
 
-                        <!-- Application -->
+                        <!-- Deployment -->
                         <applicationName>cicdapp</applicationName>
                         <muleVersion>${app.runtime}</muleVersion>
                         <deploymentTarget>CH2</deploymentTarget>
 
-                        <!-- CloudHub 2.0 Resources -->
+                        <!-- CH2 Resources -->
                         <replicas>1</replicas>
-                        <cpu>0.1</cpu>        <!-- 100 millicores -->
-                        <memory>1Gi</memory>  <!-- 1 GB RAM -->
+                        <cpu>0.1</cpu>
+                        <memory>1Gi</memory>
 
-                        <!-- Object Store -->
+                        <!-- Object Store (recommended) -->
                         <objectStoreV2>true</objectStoreV2>
 
                     </cloudHub2Deployment>
                 </configuration>
+
             </plugin>
         </plugins>
     </build>
 
+    <!-- Dependencies -->
     <dependencies>
 
         <!-- HTTP Connector -->
@@ -93,7 +122,7 @@
 
     </dependencies>
 
-    <!-- Repositories -->
+    <!-- Normal repositories -->
     <repositories>
         <repository>
             <id>anypoint-exchange-v3</id>
@@ -104,13 +133,5 @@
             <url>https://repository.mulesoft.org/nexus/content/repositories/public/</url>
         </repository>
     </repositories>
-
-    <!-- Plugin Repositories -->
-    <pluginRepositories>
-        <pluginRepository>
-            <id>mulesoft-public</id>
-            <url>https://repository.mulesoft.org/nexus/content/repositories/public/</url>
-        </pluginRepository>
-    </pluginRepositories>
 
 </project>
