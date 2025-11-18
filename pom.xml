@@ -1,125 +1,116 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-	<modelVersion>4.0.0</modelVersion>
+    <modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.mycompany</groupId>
-	<artifactId>cicdapp</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
-	<packaging>mule-application</packaging>
+    <groupId>com.mycompany</groupId>
+    <artifactId>cicdapp</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>mule-application</packaging>
 
-	<name>cicdapp</name>
+    <name>cicdapp</name>
 
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-		<app.runtime>4.7.0</app.runtime>
-		<mule.maven.plugin.version>4.2.0</mule.maven.plugin.version>
-	</properties>
+        <!-- Runtime -->
+        <app.runtime>4.7.0</app.runtime>
 
-	<build>
-		<plugins>
+        <!-- Correct Mule Maven Plugin Version -->
+        <mule.maven.plugin.version>3.9.1</mule.maven.plugin.version>
+    </properties>
 
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-clean-plugin</artifactId>
-				<version>3.2.0</version>
-			</plugin>
+    <build>
+        <plugins>
 
-			<!-- Mule Deployment Plugin -->
-			<plugin>
-				<groupId>org.mule.tools.maven</groupId>
-				<artifactId>mule-maven-plugin</artifactId>
-				<version>${mule.maven.plugin.version}</version>
-				<extensions>true</extensions>
+            <!-- Clean Plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>3.2.0</version>
+            </plugin>
 
-				<configuration>
-					<cloudHub2Deployment>
+            <!-- Mule Deployment Plugin -->
+            <plugin>
+                <groupId>org.mule.tools.maven</groupId>
+                <artifactId>mule-maven-plugin</artifactId>
+                <version>${mule.maven.plugin.version}</version>
+                <extensions>true</extensions>
 
-						<!-- Platform URL -->
-						<uri>https://anypoint.mulesoft.com</uri>
+                <configuration>
+                    <cloudHub2Deployment>
 
-						<username>Rakesh99</username>
-						<password>Rakesh@9999</password>
+                        <!-- Platform URL -->
+                        <uri>https://anypoint.mulesoft.com</uri>
 
-						<!-- Connected App Credentials -->
-						<connectedAppClientId>00e2284af36a46169a073425e5cb58f4</connectedAppClientId>
-						<connectedAppClientSecret>8d4BCb9d698E4368bB2466314B38eEb1</connectedAppClientSecret>
+                        <!-- Connected App Authentication -->
+                        <connectedAppClientId>00e2284af36a46169a073425e5cb58f4</connectedAppClientId>
+                        <connectedAppClientSecret>8d4BCb9d698E4368bB2466314B38eEb1</connectedAppClientSecret>
 
-						<!-- Target -->
-						<businessGroup>sriven-9</businessGroup>
-						<environment>Sandbox</environment>
+                        <!-- Business Group + Environment -->
+                        <businessGroup>sriven-9</businessGroup>
+                        <environment>Sandbox</environment>
 
-						<!-- Deployment Configuration -->
-						<applicationName>cicdapp</applicationName>
-						<muleVersion>4.7.0</muleVersion>
+                        <!-- Application -->
+                        <applicationName>cicdapp</applicationName>
+                        <muleVersion>${app.runtime}</muleVersion>
+                        <deploymentTarget>CH2</deploymentTarget>
 
+                        <!-- CloudHub 2.0 Resources -->
+                        <replicas>1</replicas>
+                        <cpu>0.1</cpu>        <!-- 100 millicores -->
+                        <memory>1Gi</memory>  <!-- 1 GB RAM -->
 
-						<workerType>vCores</workerType>
-						<workers>1</workers>
+                        <!-- Object Store -->
+                        <objectStoreV2>true</objectStoreV2>
 
+                    </cloudHub2Deployment>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
+    <dependencies>
 
-						<!-- CloudHub 2.0 Resources -->
-						<deploymentTarget>CH2</deploymentTarget>
-						<replicas>1</replicas>
-						<cpu>0.1</cpu>        <!-- 0.1 vCore (100 millicores) -->
-						<memory>1Gi</memory>  <!-- 1 GB memory -->
+        <!-- HTTP Connector -->
+        <dependency>
+            <groupId>org.mule.connectors</groupId>
+            <artifactId>mule-http-connector</artifactId>
+            <version>1.9.3</version>
+            <classifier>mule-plugin</classifier>
+        </dependency>
 
-						<objectStoreV2>true</objectStoreV2>
+        <!-- Sockets Connector -->
+        <dependency>
+            <groupId>org.mule.connectors</groupId>
+            <artifactId>mule-sockets-connector</artifactId>
+            <version>1.2.4</version>
+            <classifier>mule-plugin</classifier>
+        </dependency>
 
-					</cloudHub2Deployment>
-				</configuration>
+    </dependencies>
 
-			</plugin>
-		</plugins>
-	</build>
+    <!-- Repositories -->
+    <repositories>
+        <repository>
+            <id>anypoint-exchange-v3</id>
+            <url>https://maven.anypoint.mulesoft.com/api/v3/maven</url>
+        </repository>
+        <repository>
+            <id>mulesoft-public</id>
+            <url>https://repository.mulesoft.org/nexus/content/repositories/public/</url>
+        </repository>
+    </repositories>
 
-	<dependencies>
-		<dependency>
-			<groupId>org.mule.connectors</groupId>
-			<artifactId>mule-http-connector</artifactId>
-			<version>1.9.3</version>
-			<classifier>mule-plugin</classifier>
-		</dependency>
-
-		<dependency>
-			<groupId>org.mule.connectors</groupId>
-			<artifactId>mule-sockets-connector</artifactId>
-			<version>1.2.4</version>
-			<classifier>mule-plugin</classifier>
-		</dependency>
-	</dependencies>
-
-	<repositories>
-		<repository>
-			<id>anypoint-exchange-v3</id>
-			<name>Anypoint Exchange</name>
-			<url>https://maven.anypoint.mulesoft.com/api/v3/maven</url>
-			<layout>default</layout>
-		</repository>
-
-		<repository>
-			<id>mulesoft-releases</id>
-			<name>MuleSoft Releases Repository</name>
-			<url>https://repository.mulesoft.org/releases/</url>
-			<layout>default</layout>
-		</repository>
-	</repositories>
-
-	<pluginRepositories>
-		<pluginRepository>
-			<id>mulesoft-releases</id>
-			<name>MuleSoft Releases Repository</name>
-			<url>https://repository.mulesoft.org/releases/</url>
-			<layout>default</layout>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</pluginRepository>
-	</pluginRepositories>
+    <!-- Plugin Repositories -->
+    <pluginRepositories>
+        <pluginRepository>
+            <id>mulesoft-public</id>
+            <url>https://repository.mulesoft.org/nexus/content/repositories/public/</url>
+        </pluginRepository>
+    </pluginRepositories>
 
 </project>
