@@ -1,146 +1,130 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-
-	<modelVersion>4.0.0</modelVersion>
-
-	<groupId>com.mycompany</groupId>
-	<artifactId>cicdapp</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
-	<packaging>mule-application</packaging>
-
-	<name>cicdapp</name>
-
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-
-		<!-- Mule runtime -->
-		<app.runtime>4.7.0</app.runtime>
-
-		<!-- Correct Mule Maven Plugin Version -->
-		<mule.maven.plugin.version>3.9.1</mule.maven.plugin.version>
-	</properties>
-
-	<!-- ⭐ Plugin repositories go ABOVE <build> (important for resolution) -->
-	<pluginRepositories>
-		<!-- MuleSoft Public (must be FIRST) -->
-		<pluginRepository>
-			<id>mulesoft-public</id>
-			<name>MuleSoft Public Repository</name>
-			<url>https://repository.mulesoft.org/nexus/content/repositories/public/</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</pluginRepository>
-
-		<!-- Anypoint Exchange (fallback only) -->
-		<pluginRepository>
-			<id>anypoint-exchange-v3</id>
-			<name>Anypoint Exchange</name>
-			<url>https://maven.anypoint.mulesoft.com/api/v3/maven</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</pluginRepository>
-
-		<!-- Central (fallback) -->
-		<pluginRepository>
-			<id>central</id>
-			<name>Maven Central</name>
-			<url>https://repo.maven.apache.org/maven2</url>
-		</pluginRepository>
-	</pluginRepositories>
-
-	<build>
-		<plugins>
-
-			<!-- Clean Plugin -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-clean-plugin</artifactId>
-				<version>3.2.0</version>
-			</plugin>
-
-			<!-- Mule Deployment Plugin -->
-			<plugin>
-				<groupId>org.mule.tools.maven</groupId>
-				<artifactId>mule-maven-plugin</artifactId>
-				<version>3.8.1</version>
-				<extensions>true</extensions>
-
-
-				<configuration>
-					<cloudHub2Deployment>
-						<!-- Platform URL -->
-						<uri>https://anypoint.mulesoft.com</uri>
-
-						<!-- Connected App Auth -->
-						<connectedAppClientId>00e2284af36a46169a073425e5cb58f4</connectedAppClientId>
-						<connectedAppClientSecret>8d4BCb9d698E4368bB2466314B38eEb1</connectedAppClientSecret>
-
-						<!-- BG + Environment -->
-						<businessGroup>sriven-9</businessGroup>
-						<environment>Sandbox</environment>
-
-						<!-- Deployment -->
-						<applicationName>cicdapp</applicationName>
-						<muleVersion>${app.runtime}</muleVersion>
-						<deploymentTarget>CH2</deploymentTarget>
-
-						<!-- CH2 Resources -->
-						<replicas>1</replicas>
-						<cpu>0.1</cpu>
-						<memory>1Gi</memory>
-
-						<!-- Object Store (recommended) -->
-						<objectStoreV2>true</objectStoreV2>
-
-					</cloudHub2Deployment>
-				</configuration>
-
-			</plugin>
-		</plugins>
-	</build>
-
-	<!-- Dependencies -->
-	<dependencies>
-
-		<!-- HTTP Connector -->
-		<dependency>
-			<groupId>org.mule.connectors</groupId>
-			<artifactId>mule-http-connector</artifactId>
-			<version>1.9.3</version>
-			<classifier>mule-plugin</classifier>
-		</dependency>
-
-		<!-- Sockets Connector -->
-		<dependency>
-			<groupId>org.mule.connectors</groupId>
-			<artifactId>mule-sockets-connector</artifactId>
-			<version>1.2.4</version>
-			<classifier>mule-plugin</classifier>
-		</dependency>
-
-	</dependencies>
-
-	<!-- Normal repositories -->
-	<repositories>
-		<repository>
-			<id>anypoint-exchange-v3</id>
-			<url>https://maven.anypoint.mulesoft.com/api/v3/maven</url>
-		</repository>
-		<repository>
-			<id>mulesoft-public</id>
-			<url>https://repository.mulesoft.org/nexus/content/repositories/public/</url>
-		</repository>
-	</repositories>
-
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+ 
+    <modelVersion>4.0.0</modelVersion>
+ 
+    <!-- Anypoint Org / Business Group ID -->
+<groupId>2b42652a-1087-4da3-be26-87e27dee68fd</groupId>
+<artifactId>jenkins-cicd</artifactId>
+<version>1.0.0-SNAPSHOT</version>
+<packaging>mule-application</packaging>
+ 
+    <name>jenkins-cicd</name>
+ 
+    <properties>
+<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+ 
+        <!-- Mule runtime (CloudHub 2.0 Free Trial – edge/java17) -->
+<app.runtime>4.10.1</app.runtime>
+ 
+        <!-- Mule Maven plugin -->
+<mule.maven.plugin.version>4.1.1</mule.maven.plugin.version>
+ 
+        <!-- CH2 deploy props -->
+<deployment.env>Sandbox</deployment.env>
+<deployment.target>Cloudhub-US-East-2</deployment.target>
+</properties>
+ 
+    <!-- Exchange Maven Facade repositories (for dependencies) -->
+<repositories>
+<repository>
+<!-- 🔹 MUST match <server><id>anypoint-exchange-v3</id> in settings.xml -->
+<id>anypoint-exchange-v3</id>
+<name>Exchange2 Repository</name>
+<url>https://maven.anypoint.mulesoft.com/api/v3/organizations/d8372553-91e5-45df-9b88-283b1b3dde80/maven</url>
+</repository>
+<repository>
+<id>mulesoft-releases</id>
+<name>MuleSoft Releases</name>
+<url>https://repository.mulesoft.org/releases/</url>
+</repository>
+<repository>
+<id>central</id>
+<url>https://repo.maven.apache.org/maven2</url>
+</repository>
+</repositories>
+ 
+    <pluginRepositories>
+<pluginRepository>
+<id>mulesoft-plugin-repo</id>
+<name>MuleSoft Plugin Repository</name>
+<url>https://repository.mulesoft.org/releases/</url>
+</pluginRepository>
+<pluginRepository>
+<id>central</id>
+<url>https://repo.maven.apache.org/maven2</url>
+</pluginRepository>
+</pluginRepositories>
+ 
+    <!-- CRUCIAL: distributionManagement so "mvn deploy" publishes to Exchange -->
+<distributionManagement>
+<repository>
+<!-- 🔹 MUST match <server><id>Repository</id> in settings.xml -->
+<id>Repository</id>
+<name>Exchange Repository</name>
+<url>https://maven.anypoint.mulesoft.com/api/v3/organizations/2b42652a-1087-4da3-be26-87e27dee68fd/maven</url>
+<layout>default</layout>
+</repository>
+</distributionManagement>
+ 
+    <build>
+<plugins>
+<plugin>
+<groupId>org.apache.maven.plugins</groupId>
+<artifactId>maven-clean-plugin</artifactId>
+<version>3.2.0</version>
+</plugin>
+ 
+            <!-- Mule CloudHub 2.0 Deployment -->
+<plugin>
+<groupId>org.mule.tools.maven</groupId>
+<artifactId>mule-maven-plugin</artifactId>
+<version>${mule.maven.plugin.version}</version>
+<extensions>true</extensions>
+<configuration>
+<classifier>mule-application</classifier>
+ 
+                    <cloudhub2Deployment>
+<uri>https://anypoint.mulesoft.com</uri>
+<provider>MC</provider>
+<environment>${deployment.env}</environment>
+<target>${deployment.target}</target>
+ 
+                             <server>Repository</server>
+ 
+                        <!-- Overridden from Jenkins with -Danypoint.username/password -->
+<username>${anypoint.username}</username>
+<password>${anypoint.password}</password>
+<muleVersion>${app.runtime}</muleVersion>
+<applicationName>${project.artifactId}</applicationName>
+ 
+                        <replicas>1</replicas>
+<vCores>0.1</vCores>
+ 
+                        <deploymentSettings>
+<generateDefaultPublicUrl>true</generateDefaultPublicUrl>
+</deploymentSettings>
+</cloudhub2Deployment>
+</configuration>
+</plugin>
+</plugins>
+</build>
+ 
+    <dependencies>
+<dependency>
+<groupId>org.mule.connectors</groupId>
+<artifactId>mule-http-connector</artifactId>
+<version>1.10.0</version>
+<classifier>mule-plugin</classifier>
+</dependency>
+<dependency>
+<groupId>org.mule.connectors</groupId>
+<artifactId>mule-sockets-connector</artifactId>
+<version>1.2.4</version>
+<classifier>mule-plugin</classifier>
+</dependency>
+</dependencies>
 </project>
