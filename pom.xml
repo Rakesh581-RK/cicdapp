@@ -34,15 +34,17 @@
 				<configuration>
 					<cloudHubDeployment>
 						<uri>https://anypoint.mulesoft.com</uri>
-						<muleVersion>${mule.version}</muleVersion>
-						<username>${anypoint.username}</username>
-						<password>${anypoint.password}</password>
-						<environment>${env}</environment>
-						<applicationName>${appname}</applicationName>
-						<businessGroup>${business}</businessGroup>
-						<workerType>${vCore}</workerType>
-						<workers>${workers}</workers>
+						<muleVersion>4.7.0</muleVersion>
+						<username>Rakesh99</username>
+						<password>Rakesh@9999</password>
+						<environment>Sandbox</environment>
+						<applicationName>cicdapp</applicationName>
+						<businessGroup>sriven-9</businessGroup>
+						<workerType>Micro</workerType>
+						<workers>1</workers>
 						<objectStoreV2>true</objectStoreV2>
+						<connectedAppClientId>00e2284af36a46169a073425e5cb58f4</connectedAppClientId>
+						<connectedAppClientSecret>8d4BCb9d698E4368bB2466314B38eEb1</connectedAppClientSecret>
 					</cloudHubDeployment>
 				</configuration>
 			</plugin>
