@@ -7,11 +7,11 @@
  
     <!-- Anypoint Org / Business Group ID -->
 <groupId>2b42652a-1087-4da3-be26-87e27dee68fd</groupId>
-<artifactId>jenkins-cicd</artifactId>
+<artifactId>cicdapp</artifactId>
 <version>1.0.0-SNAPSHOT</version>
 <packaging>mule-application</packaging>
  
-    <name>jenkins-cicd</name>
+    <name>cicdapp</name>
  
     <properties>
 <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -34,7 +34,7 @@
 <!-- 🔹 MUST match <server><id>anypoint-exchange-v3</id> in settings.xml -->
 <id>anypoint-exchange-v3</id>
 <name>Exchange2 Repository</name>
-<url>https://maven.anypoint.mulesoft.com/api/v3/organizations/d8372553-91e5-45df-9b88-283b1b3dde80/maven</url>
+<url>https://maven.anypoint.mulesoft.com/api/v3/organizations/2b42652a-1087-4da3-be26-87e27dee68fd/maven</url>
 </repository>
 <repository>
 <id>mulesoft-releases</id>
