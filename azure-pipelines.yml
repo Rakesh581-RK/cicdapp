@@ -1,19 +1,43 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
-
 trigger:
-- main
+- main   # Pipeline runs when code is pushed to main branch
 
 pool:
-  vmImage: ubuntu-latest
+  vmImage: 'ubuntu-latest'
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+# 1. Checkout repository
+- checkout: self
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+# 2. Install JDK (Java)
+- task: JavaToolInstaller@0
+  inputs:
+    versionSpec: '17'          # use Java 17 (recommended)
+    jdkArchitectureOption: 'x64'
+    jdkSourceOption: 'PreInstalled'
+
+# 3. Cache Maven dependencies (faster builds)
+- task: Cache@2
+  inputs:
+    key: 'maven | "$(Agent.OS)" | pom.xml'
+    path: ~/.m2/repository
+    restoreKeys: |
+      maven | "$(Agent.OS)"
+
+# 4. Build the project using Maven
+- task: Maven@3
+  inputs:
+    mavenPomFile: 'pom.xml'
+    goals: 'clean install'
+    publishJUnitResults: true
+    testResultsFiles: '**/surefire-reports/*.xml'
+    javaHomeOption: 'JDKVersion'
+    jdkVersionOption: '17'
+    mavenOptions: '-Xmx2048m'
+    sonarQubeRunAnalysis: false
+
+# 5. Publish build artifacts (like JAR/WAR)
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: 'target'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
